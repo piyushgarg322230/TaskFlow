@@ -1,0 +1,150 @@
+/* src/App.css */
+:root {
+    --primary-color: #615FFF;
+    --primary-light: #615ffd;
+    --secondary-color: #3f37c9;
+    --accent-color: #4cc9f0;
+    --success-color: #4ade80;
+    --warning-color: #fbbf24;
+    --danger-color: #f87171;
+    --text-dark: #1e293b;
+    --text-medium: #64748b;
+    --text-light: #94a3b8;
+    --bg-light: #f8fafc;
+    --bg-white: #ffffff;
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .app-container {
+    display: flex;
+    background: var(--bg-light);
+    color: var(--text-dark);
+    min-height: 100vh;
+  }
+  
+  .main-content {
+    margin-left: 280px;
+    padding: 2rem;
+    flex-grow: 1;
+    transition: var(--transition);
+    background: var(--bg-white);
+  }
+  
+  .task-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    gap: 1.5rem;
+  }
+  
+  .header-left {
+    flex-grow: 1;
+  }
+  
+  .task-header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+    background: linear-gradient(to right, var(--primary-color), var(--primary-light));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  .search-bar {
+    position: relative;
+    max-width: 400px;
+  }
+  
+  .search-bar i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
+  }
+  
+  .search-bar input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
+    font-size: 1rem;
+    transition: var(--transition);
+    background: var(--bg-light);
+  }
+  
+  .search-bar input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+  }
+  
+  .add-task {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    white-space: nowrap;
+    box-shadow: var(--shadow-md);
+  }
+  
+  .add-task:hover {
+    background: var(--secondary-color);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-medium);
+    background: var(--bg-light);
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+  }
+  
+  .empty-state p {
+    font-size: 1.1rem;
+  }
+  
+  /* Mobile styles */
+  @media (max-width: 768px) {
+    .main-content {
+      margin-left: 0;
+      padding: 1.25rem;
+    }
+  
+    .main-content.sidebar-open {
+      margin-left: 260px;
+    }
+  
+    .task-header {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+    }
+  
+    .search-bar {
+      max-width: 100%;
+    }
+  
+    .add-task {
+      width: 100%;
+      justify-content: center;
+    }
+  }
