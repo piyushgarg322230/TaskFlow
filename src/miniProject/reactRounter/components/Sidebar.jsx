@@ -18,6 +18,12 @@ const Sidebar = ({ activeView, setActiveView, taskCounts, isSidebarOpen, setIsSi
                 </div>
 
 
+
+
+
+
+
+
                 <div className='menu-scroll'>
                     {menuItems.map(item => (
                         <div
