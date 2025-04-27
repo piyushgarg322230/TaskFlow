@@ -3,6 +3,8 @@ import Sidebar from './components/Sidebar';
 import TaskList from './components/TaskList';
 import TaskModal from './components/TaskModal';
 import FabButton from './components/FabButton';
+import Profile from './components/Profile';
+import { addStartDoc, localUser,dataBaseKey,fetchUserTasks, completeTask } from './authService'; // Adjust the import path as necessary
 import './App.css';
 
 function App() {
@@ -11,43 +13,17 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isProfile, setIsProfile] = useState(false);
+
 
   useEffect(() => {
-    const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [
-      {
-        id: 1,
-        title: "Complete project proposal",
-        description: "Include budget and timeline",
-        dueDate: new Date().toISOString().split('T')[0],
-        list: "work",
-        priority: "high",
-        completed: false,
-        createdAt: new Date().toISOString()
-      },
-      {
-        id: 2,
-        title: "Team sync meeting",
-        description: "Discuss Q2 goals",
-        dueDate: new Date().toISOString().split('T')[0],
-        list: "work",
-        priority: "medium",
-        completed: true,
-        completedAt: new Date().toISOString(),
-        createdAt: new Date().toISOString()
-      },
-      {
-        id: 3,
-        title: "Renew gym membership",
-        description: "Check for discounts",
-        dueDate: new Date(Date.now() - 86400000).toISOString().split('T')[0],
-        list: "personal",
-        priority: "low",
-        completed: false,
-        createdAt: new Date().toISOString()
-      }
-    ];
-    setTasks(savedTasks);
+    loadTasks();  
   }, []);
+  
+  const loadTasks = async () => {
+    const fetchedTasks = await fetchUserTasks();
+    setTasks(fetchedTasks);
+  };
 
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -60,18 +36,21 @@ function App() {
       createdAt: new Date().toISOString(),
       completed: false
     };
-    setTasks([...tasks, taskWithId]);
+    addStartDoc(localUser.uid, taskWithId,dataBaseKey.tasks,taskWithId.id); // Add this line to save the task in Firestore
+    // setTasks([...tasks, taskWithId]);
+    loadTasks(); // Reload tasks from Firestore
     setIsModalOpen(false);
   };
 
   const toggleTaskCompletion = (taskId) => {
     setTasks(tasks.map(task => {
       if (task.id === taskId) {
-        return {
-          ...task,
-          completed: !task.completed,
-          completedAt: !task.completed ? new Date().toISOString() : null
-        };
+        completeTask(taskId, !task.completed); // Update Firestore
+        // return {
+        //   ...task,
+        //   completed: !task.completed,
+        //   completedAt: !task.completed ? new Date().toISOString() : null
+        // };
       }
       return task;
     }));
@@ -80,16 +59,16 @@ function App() {
   const filteredTasks = () => {
     const today = new Date().toISOString().split('T')[0];
     let filtered = tasks;
-    
+
     // Apply search filter if query exists
     if (searchQuery) {
-      filtered = filtered.filter(task => 
+      filtered = filtered.filter(task =>
         task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         (task.description && task.description.toLowerCase().includes(searchQuery.toLowerCase()))
       );
     }
-    
-    switch(activeView) {
+
+    switch (activeView) {
       case 'today':
         return {
           today: filtered.filter(task => task.dueDate === today && !task.completed),
@@ -121,53 +100,72 @@ function App() {
 
   return (
     <div className="app-container">
-      <Sidebar 
+      <Sidebar
         activeView={activeView}
         setActiveView={setActiveView}
         taskCounts={taskCounts}
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
+        setIsProfile={setIsProfile}
       />
-      
-      <div className={`main-content ${isSidebarOpen ? 'sidebar-open' : ''}`}>
-        <div className="task-header">
-          <div className="header-left">
-            <h1>
-              {activeView === 'today' && "Today's Tasks"}
-              {activeView === 'upcoming' && "Upcoming Tasks"}
-              {activeView === 'completed' && "Completed Tasks"}
-              {activeView === 'overdue' && "Overdue Tasks"}
-            </h1>
-            <div className="search-bar">
-              <i className="fas fa-search"></i>
-              <input 
-                type="text" 
-                placeholder="Search tasks..." 
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-          </div>
-          <button className="add-task" onClick={() => setIsModalOpen(true)}>
-            <i className="fas fa-plus"></i>
-            Add Task
-          </button>
-        </div>
 
-        <TaskList 
-          tasks={filteredTasks()} 
-          activeView={activeView}
-          onToggleComplete={toggleTaskCompletion}
-        />
-      </div>
+      {!isProfile && (
+        <div className={`main-content ${isSidebarOpen ? 'sidebar-open' : ''}`}>
+          <div className="task-header">
+            <div className="header-left">
+              <h1>
+                {activeView === 'today' && "Today's Tasks"}
+                {activeView === 'upcoming' && "Upcoming Tasks"}
+                {activeView === 'completed' && "Completed Tasks"}
+                {activeView === 'overdue' && "Overdue Tasks"}
+              </h1>
+
+              <div className="search-bar">
+                <i className="fas fa-search"></i>
+                <input
+                  type="text"
+                  placeholder="Search tasks..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+
+            </div>
+            <button className="add-task" onClick={() => setIsModalOpen(true)}>
+              <i className="fas fa-plus"></i>
+              Add Task
+            </button>
+          </div>
+
+          <TaskList
+            tasks={filteredTasks()}
+            activeView={activeView}
+            onToggleComplete={toggleTaskCompletion}
+          />
+        </div>
+      )}
 
       <FabButton onClick={() => setIsModalOpen(true)} />
-      
-      <TaskModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
+
+      <TaskModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
         onSave={addTask}
       />
+
+      {isProfile && (
+        <div className={`main-content ${isSidebarOpen ? 'sidebar-open' : ''}`}>
+
+          <Profile
+            isOpen={isProfile}
+            onClose={() => {
+              setIsProfile(false);
+              setActiveView('today'); // ya koi bhi default view jahan wapas jaana ho
+            }}
+          />
+        </div>
+
+      )}
     </div>
   );
 }

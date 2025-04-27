@@ -1,13 +1,19 @@
 // src/components/Sidebar.jsx
 import { FaTasks, FaHome, FaCalendarAlt, FaCheckCircle, FaExclamationTriangle, FaProjectDiagram, FaTag, FaUser, FaBriefcase, FaPlus, FaBars, FaTimes } from 'react-icons/fa';
+import { useNavigate } from "react-router-dom";
+import { directUrl } from "../Common"; // Adjust the import path as necessary
 
-const Sidebar = ({ activeView, setActiveView, taskCounts, isSidebarOpen, setIsSidebarOpen }) => {
+
+const Sidebar = ({ activeView, setActiveView, taskCounts, isSidebarOpen, setIsSidebarOpen, setIsProfile }) => {
+    const navigate = useNavigate();
     const menuItems = [
         { view: 'today', icon: <FaHome />, label: 'Today', count: taskCounts.today },
         { view: 'upcoming', icon: <FaCalendarAlt />, label: 'Upcoming', count: taskCounts.upcoming },
         { view: 'completed', icon: <FaCheckCircle />, label: 'Completed', count: taskCounts.completed },
         { view: 'overdue', icon: <FaExclamationTriangle />, label: 'Overdue', count: taskCounts.overdue }
     ];
+
+
 
     return (
         <>
@@ -16,20 +22,13 @@ const Sidebar = ({ activeView, setActiveView, taskCounts, isSidebarOpen, setIsSi
                     <FaTasks />
                     <span>TaskFlow</span>
                 </div>
-
-
-
-
-
-
-
-
                 <div className='menu-scroll'>
                     {menuItems.map(item => (
                         <div
                             key={item.view}
                             className={`menu-item ${activeView === item.view ? 'active' : ''}`}
                             onClick={() => {
+                                setIsProfile(false);
                                 setActiveView(item.view);
                                 setIsSidebarOpen(false);
                             }}
@@ -70,14 +69,17 @@ const Sidebar = ({ activeView, setActiveView, taskCounts, isSidebarOpen, setIsSi
 
                 <div className="divider"></div>
 
-                <button className="profile-trigger">
+                <button className="profile-trigger" onClick={() => {
+                    setIsProfile(true)
+                    setActiveView('');
+                }
+                }>
                     <img
                         src="https://picsum.photos/1200/400"
                         alt="Profile"
                         className="profile-avatar"
                     />
                     <span>MyProfile</span>
-
                 </button>
             </div>
 

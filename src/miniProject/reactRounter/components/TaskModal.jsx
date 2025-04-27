@@ -7,7 +7,9 @@ const TaskModal = ({ isOpen, onClose, onSave }) => {
   const [description, setDescription] = useState('');
   const [dueDate, setDueDate] = useState(new Date().toISOString().split('T')[0]);
   const [list, setList] = useState('personal');
+  const [priority, setPriority] = useState('low');
   const [important, setImportant] = useState(false);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,15 +17,16 @@ const TaskModal = ({ isOpen, onClose, onSave }) => {
       alert('Please enter a task title');
       return;
     }
-    
+
     onSave({
       title,
       description,
       dueDate,
       list,
-      important
+      important,
+      priority
     });
-    
+
     // Reset form
     setTitle('');
     setDescription('');
@@ -89,6 +92,19 @@ const TaskModal = ({ isOpen, onClose, onSave }) => {
               >
                 <option value="personal">Personal</option>
                 <option value="work">Work</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label htmlFor="taskList">Priority</label>
+              <select
+                id="taskList"
+                className="form-control"
+                value={priority}
+                onChange={(e) => setPriority(e.target.value)}
+              >
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
               </select>
             </div>
             <div className="form-group">

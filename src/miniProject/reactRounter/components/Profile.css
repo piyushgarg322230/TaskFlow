@@ -199,22 +199,28 @@
     transform: rotate(90deg) scale(1.1);
   }
   
+  
+  
   .bio-text {
-    color: var(--fb-text);
+    color: var(--fb-text, #333);
     font-size: 1rem;
     line-height: 1.5;
     padding: 15px;
     border: 2px solid transparent;
     border-radius: 8px;
     transition: all 0.3s ease;
-    min-height: 100px;
+    min-height: 120px;
+    width: 100%;
+    box-sizing: border-box;
+    resize: vertical;
   }
-  
+/*   
   .bio-text[contenteditable="true"] {
     border-color: var(--fb-blue);
     background: rgba(24, 119, 242, 0.05);
     box-shadow: 0 0 0 4px rgba(24, 119, 242, 0.1);
   }
+   */
   
   .save-button {
     margin-top: 15px;
@@ -330,3 +336,5 @@
     justify-content: center; 
     gap: 10px;
   }
+
+ 

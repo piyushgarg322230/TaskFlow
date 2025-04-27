@@ -261,10 +261,11 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { signup, login } from "./authService"; // Adjust the import path as necessary
+import { signup, login ,findUserByEmail} from "./authService"; // Adjust the import path as necessary
 import toast, { Toaster } from 'react-hot-toast';
 import { Link } from "react-router-dom";
 import { directUrl } from "./Common"; // Adjust the import path as necessary
+import { useNavigate } from "react-router-dom";
 
 
 const AuthSystem = () => {
@@ -272,6 +273,7 @@ const AuthSystem = () => {
   const [users, setUsers] = useState(() => JSON.parse(localStorage.getItem("users")) || []);
   const [formData, setFormData] = useState({ name: "", email: "", password: "", confirmPassword: "" });
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setMessage("");
@@ -324,8 +326,14 @@ const AuthSystem = () => {
     if (result.success) {
       // setUsers(updatedUsers);
       localStorage.setItem("users", JSON.stringify(result.user));
+      
+      // findUserByEmail(result.user.email);
       // setMessage("Account created successfully! Please log in.");
       toast.success("Login successful! Redirecting...");
+
+      setTimeout(() => {
+        navigate(`${directUrl.taskFlow}`);
+      }, 1000);
       // setIsLogin(true);
     } else {
       toast.error(result.message);
