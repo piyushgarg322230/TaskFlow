@@ -51,6 +51,9 @@ function App() {
         //   completed: !task.completed,
         //   completedAt: !task.completed ? new Date().toISOString() : null
         // };
+        setTimeout(() => {
+          loadTasks(); // Reload tasks from Firestore
+        }, 1000); // Delay to ensure Firestore update is complete
       }
       return task;
     }));
