@@ -10,4 +10,18 @@ export default defineConfig({
     host: true,
     port: 5173,
   },
+  build: {
+    chunkSizeWarningLimit: 1000,
+    outDir: 'dist',
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            // if (id.includes('react')) return 'react-vendor';
+            return 'vendor';
+          }
+        }
+      }
+    }
+  }
 })

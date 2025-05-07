@@ -152,7 +152,7 @@ export default function Home() {
 
         <section className="relative overflow-hidden min-h-screen flex items-center justify-center px-4 text-center " data-aos="fade-up" data-aos-delay="100">
           {/* Background sparkles and clouds (optional, use pattern bg or animated dots) */}
-          <div className="absolute inset-0 bg-[url('/pattern.svg')] opacity-20 pointer-events-none" />
+          <div className="absolute inset-0  opacity-20 pointer-events-none" />
 
           <div className="z-10 max-w-4xl mx-auto">
             <h2 className="text-xl md:text-2xl font-semibold italic mb-4 text-gray-800">
