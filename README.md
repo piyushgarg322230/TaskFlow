@@ -16,7 +16,7 @@
 - 📁 Project organization  
 - 🔥 Firebase integration (Auth + Firestore)  
 - 👥 Team collaboration ready  
-- ⚡ Fast performance with Vite & Bun  
+- ⚡ Fast performance with Vite & npm  
 - ✅ Real-time updates and cloud storage  
 - 🔐 Secure user login  
 
@@ -52,7 +52,7 @@ taskflow/
 git clone https://github.com/piyushgarg322230/TaskFlow.git
 cd taskflow
 
-nun install
+npm install
 
 VITE_FIREBASE_API_KEY=your-api-key
 VITE_FIREBASE_AUTH_DOMAIN=your-auth-domain
@@ -61,6 +61,6 @@ VITE_FIREBASE_STORAGE_BUCKET=your-storage-bucket
 VITE_FIREBASE_MESSAGING_SENDER_ID=your-messaging-id
 VITE_FIREBASE_APP_ID=your-app-id
 
-nun run dev
+npm run dev
 
 
