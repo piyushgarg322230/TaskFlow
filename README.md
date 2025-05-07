@@ -52,7 +52,7 @@ taskflow/
 git clone https://github.com/piyushgarg322230/TaskFlow.git
 cd taskflow
 
-bun install
+nun install
 
 VITE_FIREBASE_API_KEY=your-api-key
 VITE_FIREBASE_AUTH_DOMAIN=your-auth-domain
@@ -61,6 +61,6 @@ VITE_FIREBASE_STORAGE_BUCKET=your-storage-bucket
 VITE_FIREBASE_MESSAGING_SENDER_ID=your-messaging-id
 VITE_FIREBASE_APP_ID=your-app-id
 
-bun run dev
+nun run dev
 
 
