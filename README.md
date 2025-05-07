@@ -1,6 +1,6 @@
 # ✅ TaskFlow
 
-**TaskFlow** is a modern web-based task and project management app. It helps users organize to-dos and projects in a task-oriented format. Built with **React**, **Vite**, **Bun**, and **Firebase**, it offers real-time updates, secure login, and cloud storage — making task tracking fast, easy, and efficient for individuals or teams.
+**TaskFlow** is a modern web-based task and project management app. It helps users organize to-dos and projects in a task-oriented format. Built with **React**, **Vite**, **Npm**, and **Firebase**, it offers real-time updates, secure login, and cloud storage — making task tracking fast, easy, and efficient for individuals or teams.
 
 ---
 
